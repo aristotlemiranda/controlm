@@ -1,0 +1,18 @@
+{
+
+"DeployDescriptor":
+
+        [
+
+                {
+						"ApplyOn": {
+							"@": "RTGS-SGD-STRLMT"
+						},	
+                        "Property":"$.When.FromTime",
+                        "Assign": "1234"
+
+                }
+
+        ]
+
+}
