@@ -9,7 +9,7 @@ package "RTGS BATCH" {
 
 package "Common Components" {
     [Maintenance Core]
-    [Control-M API Service]    
+    [Control-M API Service]
 }
 
 package "RTGS Core Components" {
@@ -24,9 +24,9 @@ package "RTGS Core Components" {
   MessageListener - [BackOffice]
 
   MessageListener - [Task Scheduler]
-  
+
   MessageListener - [Report]
-  
+
 }
 
 cloud {
@@ -43,7 +43,9 @@ node "Control-M" {
 
 
 database "MySql" {
+  
   frame "rtgsdb" {
+     port JPA
       [Records]
   }
 }
@@ -52,15 +54,16 @@ database "MySql" {
 [Job Executor] --> [Job/Task]
 [Job/Task] --> [Queue]
 [Job/Task] --> [Control-M API Service]
+[Job/Task] --> [Maintenance Core]
 [Control-M API Service] --> [ControlM/automation-api]
 [Queue] --> MessageListener
 [ControlM/automation-api] --> [Server]
-[BPR] --> [Records]
-[QPR] --> [Records]
-[SPR] --> [Records]
-[MPR] --> [Records]
-[BackOffice] --> [Records]
-[Task Scheduler] --> [Records]
-[Report] --> [Records]
+[BPR] --> JPA
+[QPR] --> JPA
+[SPR] --> JPA
+[MPR] --> JPA
+[BackOffice] --> JPA
+[Task Scheduler] --> JPA
+[Report] --> JPA
 
 @enduml
