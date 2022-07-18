@@ -1,0 +1,57 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+package "RTGS BATCH" {
+  ControlMAgent - [Job Executor]
+  [Job/Task]
+}
+
+
+package "RTGS Core Components" {
+  MessageListener - [SPR]
+
+  MessageListener - [BPR]
+
+  MessageListener - [MPR]
+
+  MessageListener - [QPR]
+
+  MessageListener - [BackOffice]
+
+  MessageListener - [Task Scheduler]
+}
+
+cloud {
+  [Control-M API]
+}
+
+queue Solace {
+   [Queue]
+}
+
+node "Control-M" {
+    [Server]
+}
+
+
+database "MySql" {
+  frame "rtgsdb" {
+      [Records]
+  }
+}
+
+[Server] --> ControlMAgent
+[Job Executor] --> [Job/Task]
+[Job/Task] --> [Queue]
+[Queue] --> MessageListener
+[Job Executor] --> [Control-M API]
+[Control-M API] --> [Server]
+[BPR] --> [Records]
+[QPR] --> [Records]
+[SPR] --> [Records]
+[MPR] --> [Records]
+[BackOffice] --> [Records]
+[Task Scheduler] --> [Records]
+
+@enduml
