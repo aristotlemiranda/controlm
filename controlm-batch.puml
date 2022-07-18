@@ -7,6 +7,10 @@ package "RTGS BATCH" {
   [Job/Task]
 }
 
+package "Common Components" {
+    [Maintenance Core]
+    [Control-M API Service]    
+}
 
 package "RTGS Core Components" {
   MessageListener - [SPR]
@@ -20,10 +24,13 @@ package "RTGS Core Components" {
   MessageListener - [BackOffice]
 
   MessageListener - [Task Scheduler]
+  
+  MessageListener - [Report]
+  
 }
 
 cloud {
-  [Control-M API]
+  [ControlM/automation-api]
 }
 
 queue Solace {
@@ -44,14 +51,16 @@ database "MySql" {
 [Server] --> ControlMAgent
 [Job Executor] --> [Job/Task]
 [Job/Task] --> [Queue]
+[Job/Task] --> [Control-M API Service]
+[Control-M API Service] --> [ControlM/automation-api]
 [Queue] --> MessageListener
-[Job Executor] --> [Control-M API]
-[Control-M API] --> [Server]
+[ControlM/automation-api] --> [Server]
 [BPR] --> [Records]
 [QPR] --> [Records]
 [SPR] --> [Records]
 [MPR] --> [Records]
 [BackOffice] --> [Records]
 [Task Scheduler] --> [Records]
+[Report] --> [Records]
 
 @enduml
